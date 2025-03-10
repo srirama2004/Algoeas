@@ -13,7 +13,7 @@ export default function Landing() {
     e.preventDefault();
     try {
       const endpoint = isLogin ? "login" : "signup";
-      const response = await axios.post(`http://localhost:5000/${endpoint}`, {
+      const response = await axios.post(`https://algoeas.vercel.app/${endpoint}`, {
         githubUsername,
         password,
         githubToken: isLogin ? undefined : githubToken,
