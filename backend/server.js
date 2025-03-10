@@ -6,13 +6,12 @@ const axios = require("axios"); // ✅ Import Axios
 
 const app = express();
 app.use(express.json()); // ✅ Ensure JSON parsing
-app.use(
-  cors({
-    origin: "https://algoeas-frontend.vercel.app", // ✅ Allow frontend requests
-    methods: "GET, POST, PUT, DELETE, OPTIONS",
-    allowedHeaders: "Content-Type, Authorization",
-  })
-);
+// ✅ Allow frontend origin
+app.use(cors({
+  origin: "https://algoeas-frontend.vercel.app", 
+  methods: "GET, POST, PUT, DELETE, OPTIONS",
+  allowedHeaders: "Content-Type, Authorization"
+}));
 
 // ✅ Handle preflight requests
 app.options("*", cors());
