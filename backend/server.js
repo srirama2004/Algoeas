@@ -5,18 +5,7 @@ const bcrypt = require("bcrypt");
 const axios = require("axios"); // ✅ Import Axios
 const app = express();
 // ✅ Fix CORS properly
-app.use(
-  cors({
-    origin: "https://algoeas-frontend.vercel.app", // Allow frontend domain
-    methods: "GET, POST, PUT, DELETE, OPTIONS",
-    allowedHeaders: "X-Requested-With, Content-Type, Authorization",
-    credentials: true, // Allow cookies if needed
-  })
-);
-
-// ✅ Handle preflight requests
-app.options("*", cors());
-
+app.use(cors());
 // ✅ Middleware for JSON
 app.use(express.json());
 const db = new pg.Pool({
