@@ -1,0 +1,62 @@
+.add-problem-container {
+    text-align: center;
+    background: #111; /* Dark background */
+    padding: 40px;
+    border-radius: 10px;
+    width: 100vw; /* Full width */
+    height: 100vh; /* Full height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+  
+  .add-problem-container h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #0f0; /* Green text */
+  }
+  
+  .add-problem-form {
+    width: 40%; /* Adjusted width for better layout */
+    max-width: 600px;
+    background: #222;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  }
+  
+  .add-problem-container input, 
+  .add-problem-container textarea, 
+  .add-problem-container select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #0f0;
+    background: #333;
+    color: white;
+    font-size: 16px;
+  }
+  
+  .add-problem-container textarea {
+    min-height: 150px; /* Expand textarea */
+  }
+  
+  .add-problem-container button {
+    background: #0f0;
+    color: black;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.3s;
+  }
+  
+  .add-problem-container button:hover {
+    background: #00cc00; /* Slightly lighter green */
+  }
+  
