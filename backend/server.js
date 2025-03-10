@@ -10,6 +10,11 @@ app.use(cors({
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization"
 }));
+app.use((req, res, next) => {
+  console.log("CORS request from:", req.headers.origin);
+  next();
+});
+
 app.use(express.json());
 
 const db = new pg.Pool({
