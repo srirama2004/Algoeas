@@ -3,19 +3,10 @@ const cors = require("cors");
 const pg = require("pg");
 const bcrypt = require("bcrypt");
 const axios = require("axios"); // ✅ Import Axios
-
+const corsMiddleware = require("./cors-middleware");
 const app = express();
-app.use(express.json()); // ✅ Ensure JSON parsing
-// ✅ Allow frontend origin
-app.use(cors({
-  origin: "https://algoeas-frontend.vercel.app", 
-  methods: "GET, POST, PUT, DELETE, OPTIONS",
-  allowedHeaders: "Content-Type, Authorization"
-}));
-
-// ✅ Handle preflight requests
-app.options("*", cors());
-
+app.use(express.json()); // ✅ Ensure JSON parsi
+app.use(corsMiddleware);
 const db = new pg.Pool({
   user: "ascscs",
   host: "postgresql-ascscs.alwaysdata.net",
