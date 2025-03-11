@@ -87,7 +87,7 @@ export default {
   },
   async pushFileToRepo(githubUsername, repoName,folderName, fileName, fileContent) {
     try {
-      const response = await axios.post("http://localhost:5000/pushToRepo", {
+      const response = await axios.post("https://algoeas-back.vercel.app/pushToRepo", {
         githubUsername,
         repoName,
         folderName,
