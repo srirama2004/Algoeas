@@ -85,10 +85,14 @@ export default function Home() {
   const goToAddProblem = () => {
     navigate("/add-problem", { state: { githubUsername, githubToken, subfolders } });
   };
-
+  const handleLogout = () => {
+    setGithubToken("");
+    navigate("/login"); // Redirect to login page
+  };
   return (
     <div className="home-container">
       <h1 style={{ color: "rgba(47, 255, 0, 0.5)" }}>EasAlgo</h1>
+      <button className="logout-btn" onClick={handleLogout}>🚪 Logout</button>
 
       <div className="github-info">
         <p><strong>GitHub Username:</strong> {githubUsername || "Loading..."}</p>
