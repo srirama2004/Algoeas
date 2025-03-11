@@ -21,7 +21,7 @@ export default function Home() {
 
     async function fetchGitHubCredentials() {
       try {
-        const response = await axios.get(`https://algoeas-back.vercel.app/${githubUsername}`);
+        const response = await axios.get(`https://algoeas-back.vercel.app/getGithubCredentials/${githubUsername}`);
         if (response.data.token) {
           setGithubToken(response.data.token);
         }
