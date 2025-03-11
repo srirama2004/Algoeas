@@ -8,14 +8,12 @@ export default {
       const response = await axios.get(
         `${GITHUB_API_URL}/repos/${username}/EasAlgo`,
         {
-          headers: {
-            Authorization: `token ${token}`,
-          },
+          headers: { Authorization: `token ${token}` },
         }
       );
       return response.status === 200;
     } catch (error) {
-      return false; // Repo doesn't exist or other errors
+      return false; // Repo doesn't exist
     }
   },
 
@@ -25,7 +23,7 @@ export default {
         `${GITHUB_API_URL}/user/repos`,
         {
           name: "EasAlgo",
-          private: true, // Set to false if you want a public repo
+          private: true, // Set false for public repo
         },
         {
           headers: {
@@ -35,9 +33,9 @@ export default {
         }
       );
 
-      return response.status === 201; // Returns true if repo was created
+      return response.status === 201;
     } catch (error) {
-      console.error("Error creating repo:", error.response?.data || error);
+      console.error("❌ Error creating repo:", error.response?.data || error);
       return false;
     }
   },
@@ -47,16 +45,13 @@ export default {
       const response = await axios.get(
         `${GITHUB_API_URL}/repos/${username}/EasAlgo/contents`,
         {
-          headers: {
-            Authorization: `token ${token}`,
-          },
+          headers: { Authorization: `token ${token}` },
         }
       );
 
-      const subfolders = response.data.filter((item) => item.type === "dir");
-      return subfolders;
+      return response.data.filter((item) => item.type === "dir");
     } catch (error) {
-      console.error("Error fetching subfolders:", error);
+      console.error("❌ Error fetching subfolders:", error);
       return [];
     }
   },
@@ -70,6 +65,10 @@ export default {
         {
           message: `Created folder: ${folderName}`,
           content: btoa(" "), // Base64 encoded empty content
+          committer: {
+            name: "EasAlgo Bot",
+            email: "bot@easalgo.com",
+          },
         },
         {
           headers: {
@@ -81,11 +80,12 @@ export default {
 
       return response.status === 201;
     } catch (error) {
-      console.error("Error creating folder:", error.response?.data || error);
+      console.error("❌ Error creating folder:", error.response?.data || error);
       return false;
     }
   },
-  async pushFileToRepo(githubUsername, repoName,folderName, fileName, fileContent) {
+
+  async pushFileToRepo(githubUsername, repoName, folderName, fileName, fileContent) {
     try {
       const response = await axios.post("https://algoeas-back.vercel.app/pushToRepo", {
         githubUsername,
@@ -97,30 +97,29 @@ export default {
 
       return response.data;
     } catch (error) {
-      console.error("❌ [ERROR] Failed to push file to GitHub:", error.response?.data || error.message);
+      console.error("❌ Error pushing file to GitHub:", error.response?.data || error.message);
       throw error;
     }
   },
+
   async fetchFilesInFolder(username, token, folderName) {
     try {
       const response = await axios.get(
-        `https://api.github.com/repos/${username}/EasAlgo/contents/${folderName}`,
+        `${GITHUB_API_URL}/repos/${username}/EasAlgo/contents/${folderName}`,
         {
-          headers: {
-            Authorization: `token ${token}`,
-          },
+          headers: { Authorization: `token ${token}` },
         }
       );
-  
+
       return response.data
         .filter((item) => item.type === "file")
         .map((file) => ({
           name: file.name,
-          html_url: file.html_url, // ✅ Ensure this exists
+          html_url: file.html_url, // Ensure this exists
         }));
     } catch (error) {
-      console.error("Error fetching files:", error);
+      console.error("❌ Error fetching files:", error);
       return [];
     }
-  }
+  },
 };
