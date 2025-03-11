@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import GitHubService from "../services/GitHubService";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import Button from "react-bootstrap/Button";
+
 import axios from "axios";
 import "./Home.css";
 
@@ -15,7 +18,7 @@ export default function Home() {
   const [newCard, setNewCard] = useState("");
   const [loading, setLoading] = useState(false); // Spinner for adding category
   const [fetchingFolders, setFetchingFolders] = useState(false); // Spinner for fetching folders
-
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
   useEffect(() => {
     if (!githubUsername) return;
 
