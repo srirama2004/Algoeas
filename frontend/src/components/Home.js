@@ -87,7 +87,7 @@ export default function Home() {
   };
   const handleLogout = () => {
     setGithubToken("");
-    navigate("/login");
+    navigate("/");
   };
 
 
