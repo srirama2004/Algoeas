@@ -174,7 +174,7 @@ const styles = {
   toggle: {
     marginTop: "15px",
     color: "#2fff00",
-    backgroundColor: "black",
+    backgroundColor: "#333",
     cursor: "pointer",
     fontSize: "14px",
     textDecoration: "underline",
