@@ -133,22 +133,7 @@ export default function Home() {
       <button className="add-problem-btn" onClick={goToAddProblem}>
         ➕ Add a Problem
       </button>
-      <button className="offcanvas-btn" onClick={() => setShowOffcanvas(true)}>📌 Menu</button>
-
-<Offcanvas show={showOffcanvas} onHide={() => setShowOffcanvas(false)}>
-  <Offcanvas.Header closeButton>
-    <Offcanvas.Title>Resources</Offcanvas.Title>
-  </Offcanvas.Header>
-  <Offcanvas.Body>
-    <Button variant="success" href="https://practice.geeksforgeeks.org/problem-of-the-day" target="_blank">
-      🔗 Geeks for Geeks Problem of the Day
-    </Button>
-    <br /><br />
-    <Button variant="primary" href="https://leetcode.com/problemset/all/" target="_blank">
-      🔗 LeetCode Problems
-    </Button>
-  </Offcanvas.Body>
-</Offcanvas>
+      
     </div>
   );
 }
