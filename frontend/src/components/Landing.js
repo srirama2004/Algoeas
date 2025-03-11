@@ -70,6 +70,12 @@ export default function Landing() {
               style={styles.input}
             />
           )}
+           <p style={styles.tokenInfo}>
+      <strong>🔑 Need help?</strong> Create a token  
+      <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer" style={styles.tokenLink}>
+        {" "}here
+      </a>.
+    </p>
           <button type="submit" style={styles.button}>
             {isLogin ? "Login" : "Sign Up"}
           </button>
