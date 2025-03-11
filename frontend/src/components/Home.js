@@ -133,7 +133,6 @@ export default function Home() {
       <button className="add-problem-btn" onClick={goToAddProblem}>
         ➕ Add a Problem
       </button>
-      
     </div>
   );
 }
