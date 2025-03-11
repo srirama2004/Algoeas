@@ -85,11 +85,16 @@ export default function Home() {
   const goToAddProblem = () => {
     navigate("/add-problem", { state: { githubUsername, githubToken, subfolders } });
   };
+  const handleLogout = () => {
+    setGithubToken("");
+    navigate("/login");
+  };
+
 
   return (
     <div className="home-container">
       <h1 style={{ color: "rgba(47, 255, 0, 0.5)" }}>EasAlgo</h1>
-
+      <button className="logout-btn" onClick={handleLogout}>🚪 Logout</button>
       <div className="github-info">
         <p><strong>GitHub Username:</strong> {githubUsername || "Loading..."}</p>
         {repoExists ? (
@@ -129,6 +134,22 @@ export default function Home() {
       <button className="add-problem-btn" onClick={goToAddProblem}>
         ➕ Add a Problem
       </button>
+      <button className="offcanvas-btn" onClick={() => setShowOffcanvas(true)}>📌 Menu</button>
+
+<Offcanvas show={showOffcanvas} onHide={() => setShowOffcanvas(false)}>
+  <Offcanvas.Header closeButton>
+    <Offcanvas.Title>Resources</Offcanvas.Title>
+  </Offcanvas.Header>
+  <Offcanvas.Body>
+    <Button variant="success" href="https://practice.geeksforgeeks.org/problem-of-the-day" target="_blank">
+      🔗 Geeks for Geeks Problem of the Day
+    </Button>
+    <br /><br />
+    <Button variant="primary" href="https://leetcode.com/problemset/all/" target="_blank">
+      🔗 LeetCode Problems
+    </Button>
+  </Offcanvas.Body>
+</Offcanvas>
     </div>
   );
 }
