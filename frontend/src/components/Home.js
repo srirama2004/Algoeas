@@ -13,15 +13,17 @@ export default function Home() {
   const [repoExists, setRepoExists] = useState(false);
   const [subfolders, setSubfolders] = useState([]);
   const [newCard, setNewCard] = useState("");
-  const [loading, setLoading] = useState(false); // Spinner for adding category
-  const [fetchingFolders, setFetchingFolders] = useState(false); // Spinner for fetching folders
+  const [loading, setLoading] = useState(false);
+  const [fetchingFolders, setFetchingFolders] = useState(false);
 
   useEffect(() => {
     if (!githubUsername) return;
 
     async function fetchGitHubCredentials() {
       try {
-        const response = await axios.get(`https://algoeas-back.vercel.app/getGithubCredentials/${githubUsername}`);
+        const response = await axios.get(
+          `https://algoeas-back.vercel.app/getGithubCredentials/${githubUsername}`
+        );
         if (response.data.token) {
           setGithubToken(response.data.token);
         }
@@ -39,12 +41,21 @@ export default function Home() {
     async function checkRepoAndLoadSubfolders() {
       setFetchingFolders(true);
       try {
-        const exists = await GitHubService.checkRepoExists(githubUsername, githubToken);
+        const exists = await GitHubService.checkRepoExists(
+          githubUsername,
+          githubToken
+        );
         setRepoExists(exists);
 
         if (exists) {
-          const folders = await GitHubService.fetchSubfolders(githubUsername, githubToken);
+          const folders = await GitHubService.fetchSubfolders(
+            githubUsername,
+            githubToken
+          );
           setSubfolders(folders);
+        } else {
+          // 🚀 Repo does NOT exist, create it with default folders
+          await createRepoWithDefaultFolders();
         }
       } catch (error) {
         console.error("Error checking repo:", error);
@@ -55,26 +66,50 @@ export default function Home() {
     checkRepoAndLoadSubfolders();
   }, [githubUsername, githubToken]);
 
+  // 🚀 Function to create a repo and add default folders
+  const createRepoWithDefaultFolders = async () => {
+    try {
+      const created = await GitHubService.createRepo(githubUsername, githubToken);
+      if (created) {
+        // 📂 Default folders to add
+        const defaultFolders = ["Arrays", "Strings", "Graphs", "Dynamic Programming"];
+        for (const folder of defaultFolders) {
+          await GitHubService.createFolder(githubUsername, githubToken, folder);
+        }
+
+        // 🔄 Fetch updated folder list
+        const updatedFolders = await GitHubService.fetchSubfolders(githubUsername, githubToken);
+        setSubfolders(updatedFolders);
+        setRepoExists(true);
+
+        alert(`✅ EasAlgo repository created successfully!\n📂 Added folders: ${defaultFolders.join(", ")}`);
+      } else {
+        alert("❌ Failed to create repository.");
+      }
+    } catch (error) {
+      console.error("Error creating repo with default folders:", error);
+    }
+  };
+
   const addCard = async () => {
     if (newCard.trim() === "") return;
 
-    setLoading(true); // Start spinner
+    setLoading(true);
     try {
       if (repoExists) {
         await GitHubService.createFolder(githubUsername, githubToken, newCard);
 
-        // Fetch updated folder list after GitHub confirmation
         const updatedFolders = await GitHubService.fetchSubfolders(githubUsername, githubToken);
         setSubfolders(updatedFolders);
 
-        alert("✅ Card added successfully!");
+        alert(`✅ Category "${newCard}" added successfully!`);
       }
 
       setNewCard("");
     } catch (error) {
       console.error("Error adding folder:", error);
     } finally {
-      setLoading(false); // Stop spinner
+      setLoading(false);
     }
   };
 
@@ -85,22 +120,23 @@ export default function Home() {
   const goToAddProblem = () => {
     navigate("/add-problem", { state: { githubUsername, githubToken, subfolders } });
   };
+
   const handleLogout = () => {
     setGithubToken("");
     navigate("/");
   };
 
-
   return (
     <div className="home-container">
       <h1 style={{ color: "rgba(47, 255, 0, 0.5)" }}>EasAlgo</h1>
       <button className="logout-btn" onClick={handleLogout}>🚪 Logout</button>
+
       <div className="github-info">
         <p><strong>GitHub Username:</strong> {githubUsername || "Loading..."}</p>
         {repoExists ? (
           <p className="repo-status">✅ GitHub Repo Exists: EasAlgo</p>
         ) : (
-          <button className="create-repo-btn" onClick={() => console.log("Create Repo")}>
+          <button className="create-repo-btn" onClick={createRepoWithDefaultFolders}>
             🚀 Create GitHub Repo
           </button>
         )}
