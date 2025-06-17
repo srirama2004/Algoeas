@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-
+import "./QuizPage.css";
 export default function QuizPage() {
   const location = useLocation();
   const { githubUsername, subfolders } = location.state || {};
