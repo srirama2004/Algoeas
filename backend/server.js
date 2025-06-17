@@ -109,7 +109,7 @@ console.log("➡️ File Content:", fileContent);
     const githubToken = userResult.rows[0].github_token;
     console.log("🔑 GitHub Token:", githubToken);
     // Correct API URL with proper variable interpolation
-    const url = `https://api.github.com/repos/${githubUsername}/${repoName}/contents/${folderName}/${fileName}.txt`;
+    const url = `https://api.github.com/repos/${githubUsername}/${repoName}/contents/${folderName}/${fileName}.java`;
 
     // Check if the file already exists to get its SHA
     let sha = null;
