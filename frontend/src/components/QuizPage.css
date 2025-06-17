@@ -100,7 +100,9 @@ body {
   margin-right: 20px;
   transition: 0.3s;
 }
-
+.hintbtn{
+    position: sticky;
+}
 .ansbtn:hover,
 .hintbtn:hover,
 .ranbtn:hover {
