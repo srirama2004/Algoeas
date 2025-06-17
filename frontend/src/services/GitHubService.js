@@ -102,24 +102,26 @@ export default {
     }
   },
 
-  async fetchFilesInFolder(username, token, folderName) {
-    try {
-      const response = await axios.get(
-        `${GITHUB_API_URL}/repos/${username}/EasAlgo/contents/${folderName}`,
-        {
-          headers: { Authorization: `token ${token}` },
-        }
-      );
+ async fetchFilesInFolder(username, token, folderName) {
+  try {
+    const response = await axios.get(
+      `${GITHUB_API_URL}/repos/${username}/EasAlgo/contents/${folderName}`,
+      {
+        headers: { Authorization: `token ${token}` },
+      }
+    );
 
-      return response.data
-        .filter((item) => item.type === "file")
-        .map((file) => ({
-          name: file.name,
-          html_url: file.html_url, // Ensure this exists
-        }));
-    } catch (error) {
-      console.error("❌ Error fetching files:", error);
-      return [];
-    }
-  },
-};
+    return response.data
+      .filter((item) => item.type === "file" && item.name.endsWith(".java"))
+      .map((file) => ({
+        name: file.name,
+        html_url: file.html_url, // GitHub view URL
+        download_url: file.download_url, // for fetching raw content
+        path: file.path, // for identifying file path
+      }));
+  } catch (error) {
+    console.error("❌ Error fetching .java files:", error);
+    return [];
+  }
+}
+
