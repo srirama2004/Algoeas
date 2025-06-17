@@ -101,8 +101,7 @@ export default {
       throw error;
     }
   },
-
- async fetchFilesInFolder(username, token, folderName) {
+async fetchFilesInFolder(username, token, folderName) {
   try {
     const response = await axios.get(
       `${GITHUB_API_URL}/repos/${username}/EasAlgo/contents/${folderName}`,
@@ -123,5 +122,5 @@ export default {
     console.error("❌ Error fetching .java files:", error);
     return [];
   }
-}
+};
 
