@@ -47,7 +47,7 @@ const checkAnswer = () => {
 
   return (
     <div className="quiz-container">
-      <h2 className="quiz-title">🧠 Code Quiz</h2>
+      <h2 className="quiz-title">🧠 Code Test</h2>
 
       <select
         className="quiz-dropdown"
@@ -74,7 +74,7 @@ const checkAnswer = () => {
           </div>
 
           <div className="quiz-answer-box">
-            <h4>🔳 Fill in the Missing Code</h4>
+            <h4>🔳 Fill in the Code</h4>
             <textarea
               className="quiz-textarea"
               rows={12}
