@@ -9,28 +9,54 @@ export default function AddProblem() {
   const { githubUsername, githubToken, subfolders } = location.state || {};
 
   const [title, setTitle] = useState("");
+  const [explanation, setExplanation] = useState("");
   const [code, setCode] = useState("");
   const [selectedRepo, setSelectedRepo] = useState(subfolders.length > 0 ? subfolders[0].name : "");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !code || !selectedRepo) {
-      alert("Please fill out all fields.");
+
+    if (!title || !explanation || !code || !selectedRepo) {
+      alert("⚠️ Please fill out all fields.");
       return;
     }
 
-    const success = await GitHubService.pushFileToRepo(githubUsername,"EasAlgo", selectedRepo, title, code);
-    if (success) {
-      alert("Problem added successfully!");
-      navigate("/home", { state: { githubUsername } });
-    } else {
-      alert("Failed to add problem.");
+    // Combine explanation and code into a single Java file
+    const javaContent = `
+/*
+Explanation:
+${explanation}
+*/
+
+${code}
+`;
+
+    const fileName = `${title.replace(/\s+/g, "_")}`;
+
+    try {
+      const success = await GitHubService.pushFileToRepo(
+        githubUsername,
+        "EasAlgo",
+        selectedRepo,
+        fileName,
+        javaContent
+      );
+
+      if (success) {
+        alert("✅ Problem added as Java file!");
+        navigate("/home", { state: { githubUsername } });
+      } else {
+        alert("❌ Failed to add problem.");
+      }
+    } catch (error) {
+      alert("🚫 Error pushing to GitHub.");
+      console.error(error);
     }
   };
 
   return (
     <div className="add-problem-container">
-      <h2>Add a Problem</h2>
+      <h2>Add a Java Problem</h2>
       <form onSubmit={handleSubmit}>
         <label>Title:</label>
         <input
@@ -41,15 +67,23 @@ export default function AddProblem() {
           required
         />
 
-        <label>Code:</label>
+        <label>Explanation:</label>
         <textarea
-          placeholder="Enter code here..."
+          placeholder="Describe the problem or logic here..."
+          value={explanation}
+          onChange={(e) => setExplanation(e.target.value)}
+          required
+        ></textarea>
+
+        <label>Java Code:</label>
+        <textarea
+          placeholder="Enter your Java solution here..."
           value={code}
           onChange={(e) => setCode(e.target.value)}
           required
         ></textarea>
 
-        <label>Select Repository:</label>
+        <label>Select Category (Folder):</label>
         <select value={selectedRepo} onChange={(e) => setSelectedRepo(e.target.value)}>
           {subfolders.map((folder, index) => (
             <option key={index} value={folder.name}>
@@ -58,7 +92,7 @@ export default function AddProblem() {
           ))}
         </select>
 
-        <button type="submit">Submit Problem</button>
+        <button type="submit">📤 Submit Problem</button>
       </form>
     </div>
   );
