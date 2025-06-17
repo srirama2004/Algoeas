@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import Prism from "prismjs";
+import "prismjs/components/prism-java";
+import "prismjs/themes/prism-tomorrow.css";
 import "./QuizPage.css";
 
 export default function QuizPage() {
@@ -9,21 +12,19 @@ export default function QuizPage() {
 
   const [selectedFolder, setSelectedFolder] = useState("");
   const [questionData, setQuestionData] = useState(null);
-  const [userAnswer, setUserAnswer] = useState("");
-  const [feedback, setFeedback] = useState("");
-  const [hintShown, setHintShown] = useState(false);
+  const [hintIndex, setHintIndex] = useState(0);
+
+  useEffect(() => {
+    Prism.highlightAll(); // apply syntax highlighting
+  }, [questionData, hintIndex]);
 
   const fetchQuestion = async () => {
-    setFeedback("");
-    setUserAnswer("");
-    setHintShown(false);
-
+    setHintIndex(0);
     try {
       const res = await axios.post("https://algoeas-back.vercel.app/getRandomQuestion", {
         githubUsername,
-        folderName: selectedFolder
+        folderName: selectedFolder,
       });
-
       setQuestionData(res.data);
     } catch (err) {
       console.error(err);
@@ -31,28 +32,15 @@ export default function QuizPage() {
     }
   };
 
-  const checkAnswer = () => {
-    if (!questionData) return;
-    if (userAnswer.trim() === questionData.answer.trim()) {
-      setFeedback("✅ Correct!");
-    } else {
-      setFeedback(`❌ Incorrect. Correct answer: ${questionData.answer}`);
+  const showNextHint = () => {
+    if (questionData && hintIndex < questionData.answer.split("\n").length) {
+      setHintIndex(prev => prev + 1);
     }
-  };
-
-  const revealHint = () => {
-    if (!questionData || hintShown) return;
-    setUserAnswer(questionData.answer);
-    setHintShown(true);
   };
 
   const extractExplanation = (code) => {
     const match = code.match(/\/\*([\s\S]*?)\*\//);
-    return match ? match[1].trim() : "";
-  };
-
-  const extractCodeWithoutExplanation = (code) => {
-    return code.replace(/\/\*[\s\S]*?\*\//, "").trim();
+    return match ? match[1].trim() : "No explanation provided.";
   };
 
   return (
@@ -60,7 +48,7 @@ export default function QuizPage() {
       <h2>🧠 Code Quiz</h2>
       <select
         value={selectedFolder}
-        onChange={e => setSelectedFolder(e.target.value)}
+        onChange={(e) => setSelectedFolder(e.target.value)}
       >
         <option value="">Select a category</option>
         {subfolders.map((f, i) => (
@@ -78,34 +66,21 @@ export default function QuizPage() {
             <p>{extractExplanation(questionData.question)}</p>
           </div>
 
-          <div className="question-box">
-            <h3>💻 Code</h3>
-            <pre>
-              {extractCodeWithoutExplanation(questionData.question)
-                .split("\n")
-                .map((line, i) =>
-                  line.includes("// 🔲 Fill in this line") ? (
-                    <div key={i}>
-                      <code className="blank-line">// {'-'.repeat(40)}</code>
-                    </div>
-                  ) : (
-                    <div key={i}>
-                      <code>{line}</code>
-                    </div>
-                  )
-                )}
+          <div className="hint-section">
+            <h3>💡 Hint</h3>
+            <button onClick={showNextHint} disabled={hintIndex >= questionData.answer.split("\n").length}>
+              Show Next Line
+            </button>
+            <pre className="language-java">
+              <code className="language-java">
+                {
+                  questionData.answer
+                    .split("\n")
+                    .slice(0, hintIndex)
+                    .join("\n")
+                }
+              </code>
             </pre>
-
-            <textarea
-              placeholder="Write the missing code line here"
-              value={userAnswer}
-              onChange={e => setUserAnswer(e.target.value)}
-            />
-            <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-              <button onClick={checkAnswer}>Submit Answer</button>
-              <button onClick={revealHint}>Show Hint</button>
-            </div>
-            {feedback && <p className="feedback">{feedback}</p>}
           </div>
         </>
       )}

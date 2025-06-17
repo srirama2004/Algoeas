@@ -151,3 +151,40 @@ textarea {
 .blank-line {
   color: #777;
 }
+.quiz-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  color: #eee;
+  background-color: #121212;
+  border-radius: 10px;
+  font-family: 'Courier New', monospace;
+}
+
+select,
+button {
+  margin: 10px 5px;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  background-color: #2e2e2e;
+  color: #fff;
+}
+
+button:disabled {
+  opacity: 0.5;
+}
+
+.explanation-box,
+.hint-section {
+  margin-top: 20px;
+  background: #1e1e1e;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+pre {
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
