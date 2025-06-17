@@ -15,6 +15,9 @@ export default function Home() {
   const [newCard, setNewCard] = useState("");
   const [loading, setLoading] = useState(false);
   const [fetchingFolders, setFetchingFolders] = useState(false);
+const goToQuiz = () => {
+  navigate("/quiz", { state: { githubUsername, subfolders } });
+};
 
   useEffect(() => {
     if (!githubUsername) return;
@@ -170,6 +173,7 @@ export default function Home() {
       <button className="add-problem-btn" onClick={goToAddProblem}>
         ➕ Add a Problem
       </button>
+      <button onClick={goToQuiz}>🧠 Start Quiz</button>
       
     </div>
   );
