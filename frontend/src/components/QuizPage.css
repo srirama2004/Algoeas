@@ -111,3 +111,24 @@ button:disabled {
   background-color: #555;
   cursor: not-allowed;
 }
+.quiz-feedback-box {
+  font-family: 'Courier New', monospace;
+  font-size: 15px;
+  padding: 14px;
+  margin-top: 20px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.quiz-feedback-box.correct {
+  background-color: #1b3821;
+  color: #8ef58e;
+  border: 1px solid #2f6d3c;
+}
+
+.quiz-feedback-box.incorrect {
+  background-color: #3a1d1d;
+  color: #f58e8e;
+  border: 1px solid #6d2f2f;
+}

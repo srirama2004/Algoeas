@@ -88,7 +88,16 @@ export default function QuizPage() {
             <button className="hintbtn" onClick={handleHintClick}>Hint</button>
           </div>
 
-          {feedback && <p className="quiz-feedback">{feedback}</p>}
+        {feedback && (
+  <pre
+    className={`quiz-feedback-box ${
+      feedback.startsWith("✅") ? "correct" : "incorrect"
+    }`}
+  >
+    {feedback}
+  </pre>
+)}
+
 
           {visibleHintLines > 0 && (
             <div className="hint-section">
