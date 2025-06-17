@@ -151,60 +151,56 @@ console.log("➡️ File Content:", fileContent);
     res.status(500).json({ error: "Failed to push file to GitHub", details: error.response?.data || error.message });
   }
 });
-// Route to get a random question (with part of code blanked)
+// Get random Java quiz
 app.post("/getRandomQuestion", async (req, res) => {
   const { githubUsername, folderName } = req.body;
   try {
-    // Fetch token
-    const userResult = await db.query("SELECT github_token FROM users WHERE github_username = $1", [githubUsername]);
-    if (userResult.rows.length === 0) return res.status(404).json({ error: "User not found" });
-    const githubToken = userResult.rows[0].github_token;
+    const result = await db.query("SELECT github_token FROM users WHERE github_username = $1", [githubUsername]);
+    if (result.rows.length === 0) return res.status(404).json({ error: "User not found" });
 
-    // Get all files in folder
+    const githubToken = result.rows[0].github_token;
     const folderUrl = `https://api.github.com/repos/${githubUsername}/EasAlgo/contents/${folderName}`;
+
     const folderResp = await axios.get(folderUrl, {
       headers: { Authorization: `token ${githubToken}` }
     });
 
     const javaFiles = folderResp.data.filter(file => file.name.endsWith(".java"));
-    if (javaFiles.length === 0) return res.status(404).json({ error: "No Java files in folder" });
+    if (javaFiles.length === 0) return res.status(404).json({ error: "No Java files found" });
 
-    // Pick a random file
     const randomFile = javaFiles[Math.floor(Math.random() * javaFiles.length)];
     const fileResp = await axios.get(randomFile.download_url);
     const fullCode = fileResp.data;
 
-    // Logic to blank out a meaningful line (not variable init or import)
     const lines = fullCode.split("\n");
-    const candidateLines = lines
-      .map((line, index) => ({ line, index }))
-      .filter(({ line }) =>
-        line.includes("if") ||
-        line.includes("for") ||
-        line.includes("while") ||
-        line.includes("return") ||
-        line.includes("System.out") ||
-        line.includes("Math") ||
-        line.includes("=")
-      );
 
-    if (candidateLines.length === 0) return res.json({ question: fullCode, missingLine: null });
+    // Extract comment block as explanation
+    const explanation = lines.find(line => line.trim().startsWith("//")) || "No explanation provided";
 
-    const chosen = candidateLines[Math.floor(Math.random() * candidateLines.length)];
-    lines[chosen.index] = "// 🔲 Fill in this line";
+    // Choose multiple logic lines as answer (for gradual hints)
+    const logicLines = lines.filter(line =>
+      /if|for|while|return|System\.out|Math|\=/.test(line) &&
+      !line.trim().startsWith("//") &&
+      !line.includes("package") &&
+      !line.includes("import")
+    );
+
+    if (logicLines.length === 0) {
+      return res.status(404).json({ error: "No logical lines to hide" });
+    }
+
+    const answerLines = logicLines.join("\n");
 
     res.json({
-      question: lines.join("\n"),
-      answer: chosen.line,
+      explanation,
+      answer: answerLines,
       fileName: randomFile.name,
       folderName
     });
   } catch (err) {
-    console.error("Error in getRandomQuestion:", err.message);
-    res.status(500).json({ error: "Failed to generate question" });
+    console.error("Quiz Fetch Error:", err.message);
+    res.status(500).json({ error: "Failed to fetch quiz question" });
   }
 });
 
-
-
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.listen(5000, () => console.log("🚀 Server running on http://localhost:5000"));
