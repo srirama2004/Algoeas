@@ -322,6 +322,22 @@ ol {
 .add-problem-btn:hover {
   background-color: #0056b3;
 }
+.goto-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 18px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 40px;
+  margin: 40px;
+  transition: 0.3s;
+}
+
+.goto-btn:hover {
+  background-color: #0056b3;
+}
 .header {
   display: flex;
   justify-content: space-between;

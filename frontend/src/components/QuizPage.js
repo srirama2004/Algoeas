@@ -16,7 +16,7 @@ export default function QuizPage() {
     setFeedback("");
     setUserAnswer("");
     try {
-      const res = await axios.post("https://algoeas-back.vercel.app/getRandomQuestion", {
+      const res = await axios.post("/getRandomQuestion", {
         githubUsername,
         folderName: selectedFolder
       });

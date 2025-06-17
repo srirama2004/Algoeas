@@ -173,7 +173,7 @@ const goToQuiz = () => {
       <button className="add-problem-btn" onClick={goToAddProblem}>
         ➕ Add a Problem
       </button>
-      <button onClick={goToQuiz}>🧠 Start Quiz</button>
+      <button className="goto-btn" onClick={goToQuiz}>🧠 Start Quiz</button>
       
     </div>
   );
