@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+
+import "./QuizPage.css";
+import React, { useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import "./QuizPage.css";
+
 export default function QuizPage() {
   const location = useLocation();
   const { githubUsername, subfolders } = location.state || {};
@@ -38,9 +40,9 @@ export default function QuizPage() {
   };
 
   const handleHintClick = () => {
-    setVisibleHintLines((prev) =>
-      Math.min(prev + 1, questionData?.answer.split("\n").length || 0)
-    );
+    if (!questionData?.answer) return;
+    const totalLines = questionData.answer.split("\n").length;
+    setVisibleHintLines((prev) => Math.min(prev + 1, totalLines));
   };
 
   return (
@@ -67,9 +69,9 @@ export default function QuizPage() {
 
           <h4>🔳 Fill in the Missing Code</h4>
           <textarea
-            placeholder="Write missing lines here..."
-            rows={6}
-            cols={60}
+            rows={10}
+            cols={80}
+            placeholder="Write your code here..."
             value={userAnswer}
             onChange={(e) => setUserAnswer(e.target.value)}
           />
@@ -83,7 +85,7 @@ export default function QuizPage() {
 
           {visibleHintLines > 0 && (
             <>
-              <h4>💡 Hints</h4>
+              <h4>💡 Hint (Showing {visibleHintLines} {visibleHintLines === 1 ? "line" : "lines"})</h4>
               <pre>
                 {questionData.answer
                   .split("\n")
