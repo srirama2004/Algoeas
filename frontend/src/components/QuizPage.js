@@ -1,4 +1,3 @@
-
 import "./QuizPage.css";
 import React, { useState } from "react";
 import axios from "axios";
@@ -46,10 +45,14 @@ export default function QuizPage() {
   };
 
   return (
-    <div>
-      <h2>🧠 Code Quiz</h2>
+    <div className="quiz-container">
+      <h2 className="quiz-title">🧠 Code Quiz</h2>
 
-      <select value={selectedFolder} onChange={(e) => setSelectedFolder(e.target.value)}>
+      <select
+        className="quiz-dropdown"
+        value={selectedFolder}
+        onChange={(e) => setSelectedFolder(e.target.value)}
+      >
         <option value="">Select a category</option>
         {subfolders?.map((f, i) => (
           <option key={i} value={f.name}>
@@ -64,35 +67,39 @@ export default function QuizPage() {
 
       {questionData && (
         <>
-          <h4>📝 Explanation</h4>
-          <pre>{questionData.explanation}</pre>
+          <div className="explanation-box">
+            <h4>📝 Explanation</h4>
+            <pre className="quiz-explanation">{questionData.explanation}</pre>
+          </div>
 
-          <h4>🔳 Fill in the Missing Code</h4>
-          <textarea
-            rows={10}
-            cols={80}
-            placeholder="Write your code here..."
-            value={userAnswer}
-            onChange={(e) => setUserAnswer(e.target.value)}
-          />
+          <div className="quiz-answer-box">
+            <h4>🔳 Fill in the Missing Code</h4>
+            <textarea
+              className="quiz-textarea"
+              rows={12}
+              placeholder="Write your code here..."
+              value={userAnswer}
+              onChange={(e) => setUserAnswer(e.target.value)}
+            />
+          </div>
 
-          <div>
+          <div className="quiz-buttons">
             <button className="ansbtn" onClick={checkAnswer}>Submit Answer</button>
             <button className="hintbtn" onClick={handleHintClick}>Hint</button>
           </div>
 
-          {feedback && <p>{feedback}</p>}
+          {feedback && <p className="quiz-feedback">{feedback}</p>}
 
           {visibleHintLines > 0 && (
-            <>
+            <div className="hint-section">
               <h4>💡 Hint (Showing {visibleHintLines} {visibleHintLines === 1 ? "line" : "lines"})</h4>
-              <pre>
+              <pre className="quiz-hint-code">
                 {questionData.answer
                   .split("\n")
                   .slice(0, visibleHintLines)
                   .join("\n")}
               </pre>
-            </>
+            </div>
           )}
         </>
       )}
