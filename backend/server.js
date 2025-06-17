@@ -154,6 +154,7 @@ console.log("➡️ File Content:", fileContent);
 // Get random Java quiz
 app.post("/getRandomQuestion", async (req, res) => {
   const { githubUsername, folderName } = req.body;
+
   try {
     const result = await db.query("SELECT github_token FROM users WHERE github_username = $1", [githubUsername]);
     if (result.rows.length === 0) return res.status(404).json({ error: "User not found" });
@@ -174,26 +175,33 @@ app.post("/getRandomQuestion", async (req, res) => {
 
     const lines = fullCode.split("\n");
 
-    // Extract comment block as explanation
-    const explanation = lines.find(line => line.trim().startsWith("//")) || "No explanation provided";
+    // Extract multiline explanation (inside /* ... */)
+    let explanationLines = [];
+    let codeStartIndex = 0;
+    let insideBlock = false;
 
-    // Choose multiple logic lines as answer (for gradual hints)
-    const logicLines = lines.filter(line =>
-      /if|for|while|return|System\.out|Math|\=/.test(line) &&
-      !line.trim().startsWith("//") &&
-      !line.includes("package") &&
-      !line.includes("import")
-    );
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (line.startsWith("/*")) insideBlock = true;
 
-    if (logicLines.length === 0) {
-      return res.status(404).json({ error: "No logical lines to hide" });
+      if (insideBlock) {
+        explanationLines.push(lines[i]);
+        if (line.endsWith("*/")) {
+          codeStartIndex = i + 1;
+          break;
+        }
+      }
     }
 
-    const answerLines = logicLines.join("\n");
+    const explanation = explanationLines.join("\n") || "/* No explanation found */";
+
+    // Remaining code after explanation block
+    const codeLines = lines.slice(codeStartIndex);
+    const code = codeLines.join("\n");
 
     res.json({
       explanation,
-      answer: answerLines,
+      answer: code,
       fileName: randomFile.name,
       folderName
     });
@@ -202,5 +210,3 @@ app.post("/getRandomQuestion", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch quiz question" });
   }
 });
-
-app.listen(5000, () => console.log("🚀 Server running on http://localhost:5000"));
