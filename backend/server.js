@@ -151,6 +151,63 @@ console.log("➡️ File Content:", fileContent);
     res.status(500).json({ error: "Failed to push file to GitHub", details: error.response?.data || error.message });
   }
 });
+const fs = require("fs");
+
+// Route to get a random question (with part of code blanked)
+app.post("/getRandomQuestion", async (req, res) => {
+  const { githubUsername, folderName } = req.body;
+
+  try {
+    // Fetch token
+    const userResult = await db.query("SELECT github_token FROM users WHERE github_username = $1", [githubUsername]);
+    if (userResult.rows.length === 0) return res.status(404).json({ error: "User not found" });
+    const githubToken = userResult.rows[0].github_token;
+
+    // Get all files in folder
+    const folderUrl = `https://api.github.com/repos/${githubUsername}/EasAlgo/contents/${folderName}`;
+    const folderResp = await axios.get(folderUrl, {
+      headers: { Authorization: `token ${githubToken}` }
+    });
+
+    const javaFiles = folderResp.data.filter(file => file.name.endsWith(".java"));
+    if (javaFiles.length === 0) return res.status(404).json({ error: "No Java files in folder" });
+
+    // Pick a random file
+    const randomFile = javaFiles[Math.floor(Math.random() * javaFiles.length)];
+    const fileResp = await axios.get(randomFile.download_url);
+    const fullCode = fileResp.data;
+
+    // Logic to blank out a meaningful line (not variable init or import)
+    const lines = fullCode.split("\n");
+    const candidateLines = lines
+      .map((line, index) => ({ line, index }))
+      .filter(({ line }) =>
+        line.includes("if") ||
+        line.includes("for") ||
+        line.includes("while") ||
+        line.includes("return") ||
+        line.includes("System.out") ||
+        line.includes("Math") ||
+        line.includes("=")
+      );
+
+    if (candidateLines.length === 0) return res.json({ question: fullCode, missingLine: null });
+
+    const chosen = candidateLines[Math.floor(Math.random() * candidateLines.length)];
+    lines[chosen.index] = "// 🔲 Fill in this line";
+
+    res.json({
+      question: lines.join("\n"),
+      answer: chosen.line,
+      fileName: randomFile.name,
+      folderName
+    });
+  } catch (err) {
+    console.error("Error in getRandomQuestion:", err.message);
+    res.status(500).json({ error: "Failed to generate question" });
+  }
+});
+
 
 
 app.listen(5000, () => console.log("Server running on port 5000"));
