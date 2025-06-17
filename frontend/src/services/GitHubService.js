@@ -122,5 +122,5 @@ async fetchFilesInFolder(username, token, folderName) {
     console.error("❌ Error fetching .java files:", error);
     return [];
   }
+},
 };
-
