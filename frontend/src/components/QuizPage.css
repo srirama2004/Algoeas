@@ -132,3 +132,35 @@ button:disabled {
   color: #f58e8e;
   border: 1px solid #6d2f2f;
 }
+.submitted-answer-block {
+  margin-top: 30px;
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.submitted-answer-block pre {
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #111;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #dcdcdc;
+}
+
+.close-answer-btn {
+  margin-top: 15px;
+  padding: 10px 18px;
+  background-color: #b00020;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.close-answer-btn:hover {
+  background-color: #8e001b;
+}

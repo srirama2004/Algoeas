@@ -12,6 +12,7 @@ export default function QuizPage() {
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState("");
   const [visibleHintLines, setVisibleHintLines] = useState(0);
+ const [showSubmittedAnswer, setShowSubmittedAnswer] = useState(false);
 
   const fetchQuestion = async () => {
     setFeedback("");
@@ -29,14 +30,14 @@ export default function QuizPage() {
     }
   };
 
-  const checkAnswer = () => {
-    if (!questionData) return;
-    if (userAnswer.trim() === questionData.answer.trim()) {
-      setFeedback("✅ Correct!");
-    } else {
-      setFeedback(`❌ Incorrect. Correct answer: ${questionData.answer}`);
-    }
-  };
+const checkAnswer = () => {
+  if (!questionData) return;
+
+  const isCorrect = userAnswer.trim() === questionData.answer.trim();
+  setFeedback(isCorrect ? "✅ Correct!" : "❌ Incorrect.");
+  setShowSubmittedAnswer(true); // show full code block
+};
+
 
   const handleHintClick = () => {
     if (!questionData?.answer) return;
@@ -95,6 +96,16 @@ export default function QuizPage() {
     }`}
   >
     {feedback}
+    {showSubmittedAnswer && (
+  <div className="submitted-answer-block">
+    <h4>📘 Correct Code:</h4>
+    <pre>{questionData.answer}</pre>
+    <button className="close-answer-btn" onClick={() => setShowSubmittedAnswer(false)}>
+      Close Answer
+    </button>
+  </div>
+)}
+
   </pre>
 )}
 
