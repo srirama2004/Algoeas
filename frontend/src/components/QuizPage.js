@@ -58,7 +58,7 @@ export default function QuizPage() {
         ))}
       </select>
 
-      <button onClick={fetchQuestion} disabled={!selectedFolder}>
+      <button className="ranbtn" onClick={fetchQuestion} disabled={!selectedFolder}>
         Get Random Question
       </button>
 
