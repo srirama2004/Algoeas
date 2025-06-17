@@ -77,8 +77,8 @@ export default function QuizPage() {
           />
 
           <div>
-            <button onClick={checkAnswer}>Submit Answer</button>
-            <button onClick={handleHintClick}>Hint</button>
+            <button className="ansbtn" onClick={checkAnswer}>Submit Answer</button>
+            <button className="hintbtn" onClick={handleHintClick}>Hint</button>
           </div>
 
           {feedback && <p>{feedback}</p>}
