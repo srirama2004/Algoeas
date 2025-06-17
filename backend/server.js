@@ -151,12 +151,9 @@ console.log("➡️ File Content:", fileContent);
     res.status(500).json({ error: "Failed to push file to GitHub", details: error.response?.data || error.message });
   }
 });
-const fs = require("fs");
-
 // Route to get a random question (with part of code blanked)
 app.post("/getRandomQuestion", async (req, res) => {
   const { githubUsername, folderName } = req.body;
-
   try {
     // Fetch token
     const userResult = await db.query("SELECT github_token FROM users WHERE github_username = $1", [githubUsername]);
