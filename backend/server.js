@@ -210,3 +210,4 @@ app.post("/getRandomQuestion", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch quiz question" });
   }
 });
+app.listen(5000, () => console.log("🚀 Server running on http://localhost:5000")); 
