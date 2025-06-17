@@ -16,10 +16,11 @@ export default function QuizPage() {
     setFeedback("");
     setUserAnswer("");
     try {
-      const res = await axios.post("https://algoeas-back.vercel.app/getRandomQuestion", {
-        githubUsername,
-        folderName: selectedFolder
-      });
+ const res = await axios.post("https://algoeas-back.vercel.app/getRandomQuestion", {
+  githubUsername,
+  folderName: selectedFolder
+});
+
       setQuestionData(res.data);
     } catch (err) {
       console.error(err);
