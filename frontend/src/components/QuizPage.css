@@ -166,3 +166,65 @@ button:disabled {
 .close-answer-btn:hover {
   background-color: #8e001b;
 }
+/* Ensure code blocks are readable and scrollable on smaller screens */
+.submitted-answer-block pre,
+.quiz-hint-code,
+.quiz-explanation {
+  overflow-x: auto;
+  white-space: pre;
+  word-wrap: normal;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Force horizontal scroll for long lines in syntax highlighter */
+pre[class*="language-"] {
+  overflow-x: auto;
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
+  padding: 1rem;
+  font-size: 14px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 550px) {
+  .quiz-container {
+    padding: 20px 16px;
+    margin: 20px 10px;
+    width: auto;
+  }
+
+  .quiz-title {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .quiz-dropdown,
+  .quiz-textarea,
+  .ansbtn,
+  .hintbtn,
+  .ranbtn,
+  .close-answer-btn {
+    font-size: 14px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .quiz-explanation,
+  .quiz-hint-code,
+  .submitted-answer-block pre {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .quiz-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hintbtn {
+    position: static;
+  }
+}
