@@ -70,3 +70,33 @@
 .loading-text {
   color: #bbb;
 }
+/* ✅ Responsive for screens <= 550px */
+@media (max-width: 550px) {
+  .folder-files-container.dark {
+    padding: 10px;
+    margin: 20px 10px;
+  }
+
+  .files-grid {
+    flex-direction: column;
+  }
+
+  .file-card {
+    flex: 1 1 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .font-controls {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .file-viewer h2 {
+    font-size: 18px;
+  }
+
+  .font-controls span {
+    font-size: 14px;
+  }
+}
