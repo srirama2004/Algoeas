@@ -409,3 +409,26 @@ ol {
   color: gray;
   font-style: italic;
 }
+@media (max-width: 550px)  {
+  .card {
+  background-color: #282c34;
+  color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  font-size: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Title text in green */
+.card h3 {
+  color: #28a745;  /* Green color for the title */
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+}
