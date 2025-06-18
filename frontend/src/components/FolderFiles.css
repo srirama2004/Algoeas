@@ -83,8 +83,8 @@
 
   .file-card {
     flex: 1 1 100%;
-    font-size: 14px;
-    padding: 10px;
+    font-size: 12px;
+    padding: 6px;
   }
 
   .font-controls {
