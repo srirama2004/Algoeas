@@ -210,4 +210,33 @@ app.post("/getRandomQuestion", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch quiz question" });
   }
 });
+// Get full content of a specific file (used in FolderFiles.jsx)
+app.post("/getFileContent", async (req, res) => {
+  const { githubUsername, folderName, fileName } = req.body;
+
+  if (!githubUsername || !folderName || !fileName) {
+    return res.status(400).json({ error: "Missing required parameters" });
+  }
+
+  try {
+    // Get token
+    const result = await db.query("SELECT github_token FROM users WHERE github_username = $1", [githubUsername]);
+    if (result.rows.length === 0) return res.status(404).json({ error: "User not found" });
+
+    const githubToken = result.rows[0].github_token;
+    const fileUrl = `https://api.github.com/repos/${githubUsername}/EasAlgo/contents/${folderName}/${fileName}`;
+
+    const fileResp = await axios.get(fileUrl, {
+      headers: { Authorization: `token ${githubToken}` }
+    });
+
+    const decodedContent = Buffer.from(fileResp.data.content, 'base64').toString("utf-8");
+
+    res.json({ content: decodedContent, fileName });
+  } catch (error) {
+    console.error("❌ Error fetching file content:", error.message);
+    res.status(500).json({ error: "Failed to fetch file content" });
+  }
+});
+
 app.listen(5000, () => console.log("🚀 Server running on http://localhost:5000")); 
