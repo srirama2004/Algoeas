@@ -4,8 +4,10 @@ import GitHubService from "../services/GitHubService";
 import { motion } from "framer-motion";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import "./FolderFiles.css";
+import java from "react-syntax-highlighter/dist/esm/languages/hljs/java";
 
+import "./FolderFiles.css";
+SyntaxHighlighter.registerLanguage("java", java);
 export default function FolderFiles() {
   const location = useLocation();
   const navigate = useNavigate();
