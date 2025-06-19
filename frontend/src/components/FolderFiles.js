@@ -88,9 +88,9 @@ export default function FolderFiles() {
           <h2>📄 {selectedFileName}</h2>
 
           <div className="font-controls">
-            <button onClick={decreaseFontSize}>➖ A</button>
+            <button onClick={decreaseFontSize}>➖</button>
             <span>{fontSize}px</span>
-            <button onClick={increaseFontSize}>➕ A</button>
+            <button onClick={increaseFontSize}>➕ </button>
             <button onClick={toggleFullScreen}>{isFullScreen ? "⛶ Exit Fullscreen" : "⛶ Fullscreen"}</button>
           </div>
 
@@ -105,8 +105,8 @@ export default function FolderFiles() {
               whiteSpace: "pre-wrap",
               maxHeight: "80vh",
                wordBreak: "break-word", // ✅ wrap long words
-    overflowX: "hidden",     // ✅ no horizontal scroll
-    width: "100%",           // ✅ take full width
+              overflowX: "auto",     // ✅ no horizontal scroll
+              width: "100%",           // ✅ take full width
               overflowY: "auto",
             }}
           >
