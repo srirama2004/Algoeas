@@ -74,7 +74,7 @@
 @media (max-width: 550px) {
   .folder-files-container.dark {
     padding: 10px;
-    margin: 20px 10px;
+    margin: 10px 10px;
   }
 
   .files-grid {
@@ -83,7 +83,7 @@
 
   .file-card {
     flex: 1 1 100%;
-    font-size: 12px;
+    font-size: 10px;
     padding: 6px;
   }
 
@@ -93,10 +93,57 @@
   }
 
   .file-viewer h2 {
-    font-size: 18px;
+    font-size: 12px;
   }
 
   .font-controls span {
     font-size: 10px;
   }
+  .fullscreen-mode {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: #121212;
+  overflow: auto;
+  padding: 20px 12px;
+}
+
+.fullscreen-mode .file-viewer {
+  margin-top: 0;
+}
+
+.fullscreen-mode .font-controls {
+  position: sticky;
+  top: 10px;
+  background-color: #121212;
+  z-index: 10000;
+  padding-bottom: 10px;
+}
+
+}
+.fullscreen-mode {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: #121212;
+  overflow: auto;
+  padding: 30px 16px;
+}
+
+.fullscreen-mode .file-viewer {
+  margin-top: 0;
+}
+
+.fullscreen-mode .font-controls {
+  position: sticky;
+  top: 10px;
+  background-color: #121212;
+  z-index: 10000;
+  padding-bottom: 10px;
 }

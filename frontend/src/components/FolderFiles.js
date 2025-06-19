@@ -5,9 +5,10 @@ import { motion } from "framer-motion";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import java from "react-syntax-highlighter/dist/esm/languages/hljs/java";
-
 import "./FolderFiles.css";
+
 SyntaxHighlighter.registerLanguage("java", java);
+
 export default function FolderFiles() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export default function FolderFiles() {
   const [selectedFileContent, setSelectedFileContent] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState("");
   const [fontSize, setFontSize] = useState(14);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   useEffect(() => {
     if (!githubUsername || !githubToken || !folderName) {
@@ -52,14 +54,13 @@ export default function FolderFiles() {
 
   const increaseFontSize = () => setFontSize((prev) => Math.min(prev + 2, 30));
   const decreaseFontSize = () => setFontSize((prev) => Math.max(prev - 2, 8));
+  const toggleFullScreen = () => setIsFullScreen((prev) => !prev);
 
   return (
-    <div className="folder-files-container dark">
+    <div className={`folder-files-container dark ${isFullScreen ? "fullscreen-mode" : ""}`}>
       <h1>📂 {folderName} Files</h1>
-      <button
-        className="back-btn"
-        onClick={() => navigate("/home", { state: { githubUsername, githubToken } })}
-      >
+
+      <button className="back-btn" onClick={() => navigate("/home", { state: { githubUsername, githubToken } })}>
         🔙 Back
       </button>
 
@@ -90,6 +91,7 @@ export default function FolderFiles() {
             <button onClick={decreaseFontSize}>➖ A</button>
             <span>{fontSize}px</span>
             <button onClick={increaseFontSize}>➕ A</button>
+            <button onClick={toggleFullScreen}>{isFullScreen ? "⛶ Exit Fullscreen" : "⛶ Fullscreen"}</button>
           </div>
 
           <SyntaxHighlighter
@@ -101,6 +103,8 @@ export default function FolderFiles() {
               fontSize: `${fontSize}px`,
               backgroundColor: "#1e1e1e",
               whiteSpace: "pre-wrap",
+              maxHeight: "80vh",
+              overflowY: "auto",
             }}
           >
             {selectedFileContent}
