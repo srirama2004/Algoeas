@@ -104,6 +104,9 @@ export default function FolderFiles() {
               backgroundColor: "#1e1e1e",
               whiteSpace: "pre-wrap",
               maxHeight: "80vh",
+               wordBreak: "break-word", // ✅ wrap long words
+    overflowX: "hidden",     // ✅ no horizontal scroll
+    width: "100%",           // ✅ take full width
               overflowY: "auto",
             }}
           >
