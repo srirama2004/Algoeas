@@ -130,7 +130,7 @@ console.log("➡️ File Content:", fileContent);
     const response = await axios.put(
       url,
       {
-        message: `Added/Updated ${fileName}.txt`,
+        message: `Added/Updated ${fileName}.java`,
         content: encodedContent,
         sha: sha || undefined, // Include SHA if updating an existing file
         branch: "main", // Ensure it's committed to the main branch
