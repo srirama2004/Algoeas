@@ -6,14 +6,12 @@
   border-radius: 10px;
   color: #ffffff;
 }
-
 .files-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
   margin-top: 20px;
 }
-
 .file-card {
   flex: 1 1 200px;
   background-color: #2c2c2c;
@@ -23,7 +21,6 @@
   color: #ffffff;
   transition: background-color 0.3s;
 }
-
 .file-card:hover {
   background-color: #3a3a3a;
 }
