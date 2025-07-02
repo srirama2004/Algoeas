@@ -179,7 +179,7 @@ const goToQuiz = () => {
   <a href="https://leetcode.com/problemset/all/" target="_blank" rel="noopener noreferrer" style={{ color: "#00f" }}>
     LeetCode
   </a>{" "}
-  or{" "}
+  and{" "}
   <a href="https://practice.geeksforgeeks.org/problem-of-the-day" target="_blank" rel="noopener noreferrer" style={{ color: "#0f0" }}>
     GFG
   </a>
