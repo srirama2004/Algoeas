@@ -174,6 +174,18 @@ const goToQuiz = () => {
         ➕ Add a Problem
       </button>
       <button className="goto-btn" onClick={goToQuiz}>🧠 Start Quiz</button>
+      <p style={{ textAlign: "center", marginTop: "30px", fontSize: "14px", color: "#aaa" }}>
+  🔁 Practice today's challenge on{" "}
+  <a href="https://leetcode.com/problemset/all/" target="_blank" rel="noopener noreferrer" style={{ color: "#00f" }}>
+    LeetCode
+  </a>{" "}
+  or{" "}
+  <a href="https://practice.geeksforgeeks.org/problem-of-the-day" target="_blank" rel="noopener noreferrer" style={{ color: "#0f0" }}>
+    GFG
+  </a>
+  .
+</p>
+
       
     </div>
   );
