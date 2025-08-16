@@ -179,11 +179,11 @@ const goToQuiz = () => {
   <a href="https://leetcode.com/problemset/all/" target="_blank" rel="noopener noreferrer" style={{ color: "#00f" }}>
     LeetCode
   </a>{" "}
-  and{" "}
   <a href="https://practice.geeksforgeeks.org/problem-of-the-day" target="_blank" rel="noopener noreferrer" style={{ color: "#0f0" }}>
     GFG
   </a>
-   <a href="https://www.hackerrank.com/domains/algorithms" target="_blank" rel="noopener noreferrer" style={{ color: "#0f0" }}>
+  {" "}
+   <a href="https://www.hackerrank.com/domains/algorithms" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255, 251, 0, 1)" }}>
     Hackerrank
   </a>
   .
